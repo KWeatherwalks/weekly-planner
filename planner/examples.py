@@ -1,10 +1,32 @@
+import datetime as dt
 from math import pi as PI
 
 import cairo
 import numpy as np
 
 
+# Helper function
+def day_of_month(d):
+    """
+    d: Datetime object
+    """
+
+    def suffix(d):
+        return "th" if 10 < d < 14 else {1: "st", 2: "nd", 3: "rd"}.get(d % 10, "th")
+
+    def custom_strftime(format, t):
+        return t.strftime(format).replace("{S}", str(t.day) + suffix(t.day))
+
+    return custom_strftime("{S}", d)
+
+
 def my_example(cr):
+
+    # weekly info
+    year = "2021"
+    month = "September"
+    week_of = dt.datetime(2021, 9, 6)
+    days_of_month = [day_of_month(week_of + dt.timedelta(days=d)) for d in range(6)]
 
     # Colors
     GRAY = (0.3, 0.3, 0.3, 1)
@@ -43,9 +65,9 @@ def my_example(cr):
     cr.move_to(5 * GRID_WIDTH, 3 * GRID_HEIGHT)
     cr.set_font_size(9)
     cr.set_source_rgba(*BLACK)
-    cr.show_text("Aug")
+    cr.show_text(month)
     cr.set_source_rgba(*GRAY)
-    cr.show_text("/Sep 2021")
+    cr.show_text(" " + year)
 
     cr.set_font_size(3)
     cr.set_line_width(0.1)
@@ -55,7 +77,7 @@ def my_example(cr):
         if line % 14:
             # Day Lines
             cr.move_to(x, y)
-            cr.set_source_rgba(*GRAY)
+            cr.set_source_rgba(*LIGHTGRAY)
             cr.rel_line_to(21 * GRID_WIDTH, 0)
             cr.stroke()
 
@@ -69,7 +91,7 @@ def my_example(cr):
             # Day
             cr.move_to((x + 1), y + 0.5 * GRID_HEIGHT)
             cr.set_source_rgba(*BLACK)
-            cr.show_text(DAYS[line // 14])
+            cr.show_text(DAYS[line // 14] + f" {days_of_month[line//14]}")
 
             # Goals
             cr.move_to((x + 1) + 26 * GRID_WIDTH, y + 0.5 * GRID_HEIGHT)
@@ -135,7 +157,7 @@ def my_example(cr):
         if line % 14:
             # Day Lines
             cr.move_to(x, y)
-            cr.set_source_rgba(*GRAY)
+            cr.set_source_rgba(*LIGHTGRAY)
             cr.rel_line_to(21 * GRID_WIDTH, 0)
             cr.stroke()
 
@@ -149,7 +171,7 @@ def my_example(cr):
             # Day
             cr.move_to((x + 1), y + 0.5 * GRID_HEIGHT)
             cr.set_source_rgba(*BLACK)
-            cr.show_text(DAYS[3 + line // 14])
+            cr.show_text(DAYS[3 + line // 14] + f" {days_of_month[3+line//14]}")
 
             # Goals
             cr.move_to((x + 1) + 26 * GRID_WIDTH, y + 0.5 * GRID_HEIGHT)
@@ -220,8 +242,8 @@ def my_example(cr):
 
     x, y = X + 23 * GRID_WIDTH, Y + 39 * GRID_HEIGHT
     # Font Selection
-    cr.select_font_face("Consolas", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_BOLD)
-    cr.set_font_size(2)
+    cr.select_font_face("Courier New", cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_BOLD)
+    cr.set_font_size(3)
 
     for i in np.arange(0, 8 * GRID_WIDTH, GRID_WIDTH):
         # Hash marks separating goals
@@ -242,7 +264,7 @@ def my_example(cr):
 
                 # Daily initials
                 text = DAYS_INIT[j // GRID_HEIGHT]
-                cr.move_to(x + 1.5, y + j + 3)
+                cr.move_to(x + 1, y + j + GRID_HEIGHT - 1)
                 cr.set_source_rgba(*BLACK)
                 cr.show_text(text)
 

@@ -40,3 +40,4 @@ def create_pdf():
             surface.finish()
 
     print("---- PDF CREATED! ----")
+
