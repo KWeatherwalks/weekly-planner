@@ -23,9 +23,9 @@ def day_of_month(d):
 def my_example(cr):
 
     # weekly info
-    year = "2021"
-    month = "September"
-    week_of = dt.datetime(2021, 9, 6)
+    year = "2022"
+    month = "July"
+    week_of = dt.datetime(2022, 7, 4)
     days_of_month = [day_of_month(week_of + dt.timedelta(days=d)) for d in range(6)]
 
     # Colors
