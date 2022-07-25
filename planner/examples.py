@@ -25,7 +25,7 @@ def my_example(cr):
     # weekly info
     year = "2022"
     month = "July"
-    week_of = dt.datetime(2022, 7, 4)
+    week_of = dt.datetime(2022, 7, 11)
     days_of_month = [day_of_month(week_of + dt.timedelta(days=d)) for d in range(6)]
 
     # Colors
