@@ -4,24 +4,24 @@ import math
 import os
 
 import cairo
-from flask import Flask, send_file
+from flask import Flask, render_template, send_file
 
-from .functions import FILENAME, PDF_PATH, create_pdf, create_txt
+from .functions import FILENAME, PDF_PATH, create_pdf
 
 # Flask app
 app = Flask(__name__)
 
-# File info
-# create_txt()
-create_pdf()
-
-
+# Homepage
 @app.route("/")
 def entry_point():
-    print("---- in entry_point() ----")
-    print("Current working directory: ", os.getcwd())
-    print(f"sending file {FILENAME} from {PDF_PATH}")
+    return render_template("index.html")
 
+
+# Create and Return PDF
+@app.route("/createfile", methods=["POST"])
+def deliver_file():
+
+    create_pdf()
     return send_file(
         PDF_PATH + "/" + FILENAME + ".pdf",
         attachment_filename=FILENAME + ".pdf",
@@ -30,7 +30,6 @@ def entry_point():
     )
 
 
+# Run locally by executing app.py
 if __name__ == "__main__":
-    print("---- Running App ---")
-    print("Current working directory: ", os.getcwd())
     app.run(debug=True)
