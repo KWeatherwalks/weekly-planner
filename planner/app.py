@@ -18,7 +18,7 @@ def entry_point():
 
 
 # Create and Return PDF
-@app.route("/createfile")
+@app.route("/createfile", methods=["POST"])
 def deliver_file():
 
     create_pdf()
@@ -30,5 +30,6 @@ def deliver_file():
     )
 
 
+# Run locally by executing app.py
 if __name__ == "__main__":
     app.run(debug=True)
