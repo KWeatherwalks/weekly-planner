@@ -8,13 +8,13 @@ from .functions import FILENAME, PDF_PATH, create_pdf
 app = Flask(__name__)
 
 # Test data to pass to the index.html
-messages = [{"month": 8, "day": 1, "year": 2022}]
+dates = [{"month": 8, "day": 1, "year": 2022}]
 
 # Homepage
 @app.route("/")
 def entry_point():
     """Home Page"""
-    return render_template("index.html", messages=messages)
+    return render_template("index.html", messages=dates)
 
 
 # Create and Return PDF

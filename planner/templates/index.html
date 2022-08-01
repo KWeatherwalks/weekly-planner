@@ -3,11 +3,11 @@
 {% block content %}
 
 <h1>{% block title %} File Creation {% endblock %}</h1>
-{% for message in messages %}
+{% for date in messages %}
 <div class='message'>
-    <p>{{ message['month'] }}</p>
-    <p>{{ message['day'] }}</p>
-    <p>{{ message['year'] }}</p>
+    <p>{{ date['month'] }}</p>
+    <p>{{ date['day'] }}</p>
+    <p>{{ date['year'] }}</p>
 </div>
 {% endfor %}
 
