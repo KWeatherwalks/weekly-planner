@@ -30,7 +30,7 @@ RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /
 USER appuser
 
 # Create a volume for bind mount 
-# to create bind mount, add following flag to docker run command:   -v ${PWD}:/planner/planner
+# to create bind mount, add following flag to docker run command:   -v ${PWD}:/planner
 VOLUME [ "/planner/python-modules" ]
 
 # During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
