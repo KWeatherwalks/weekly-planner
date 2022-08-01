@@ -1,8 +1,9 @@
+"""Flask App for Weekly Planner"""
 #!/usr/bin/python
 # coding: utf-8
-from flask import Flask, render_template, send_file
+from flask import Flask, redirect, render_template, send_file
 
-from .functions import FILENAME, PDF_PATH, create_pdf
+from .functions import PDF_PATH, create_pdf
 
 # Flask app
 app = Flask(__name__)
@@ -18,22 +19,20 @@ def entry_point():
 
 
 # Create and Return PDF
-@app.route("/createfile", methods=["POST"])
-def deliver_file():
-    """Create File"""
+@app.route("/createfile/<year>/<month>/<day>", methods=("GET", "POST"))
+def create_file(year: int, month: int, day: int):
+    """
+    Create File
+    """
     try:
-        create_pdf()
+        create_pdf({"year": year, "month": month, "day": day})
         print("---- PDF CREATED SUCCESSFULLY! ----")
+        http_response_code = 201
     except OSError:
         print("---- PDF CREATION FAILED :( ----")
-        return render_template("index.html")
+        http_response_code = 404
 
-    return send_file(
-        PDF_PATH + "/" + FILENAME + ".pdf",
-        attachment_filename=FILENAME + ".pdf",
-        # as_attachment=True,
-        cache_timeout=0,
-    )
+    return redirect("http://localhost:5000/", code=http_response_code)
 
 
 # Fetch PDF results

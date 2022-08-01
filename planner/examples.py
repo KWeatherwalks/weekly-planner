@@ -1,4 +1,6 @@
+"""Example Drawings"""
 import datetime as dt
+from calendar import month_name
 from math import pi as PI
 
 import cairo
@@ -20,12 +22,14 @@ def day_of_month(d):
     return custom_strftime("{S}", d)
 
 
-def my_example(cr):
-
+def my_example(cr, **date):
+    """My Weekly Planner Example"""
+    print("Working in", __name__)
     # weekly info
-    year = "2022"
-    month = "July"
-    week_of = dt.datetime(2022, 7, 25)
+    date = {key: int(value) for key, value in date.items()}
+    week_of = dt.datetime(year=date["year"], month=date["month"], day=date["day"])
+    year = str(week_of.year)
+    month = week_of.strftime("%B")
     days_of_month = [day_of_month(week_of + dt.timedelta(days=d)) for d in range(6)]
 
     # Colors

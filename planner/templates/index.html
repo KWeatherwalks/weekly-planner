@@ -15,12 +15,14 @@
 <p>Welcome to the Weekly Planner!</p>
 
 <p>Let's Create a File</p>
-<form action="/createfile" method="post">
-    <label for="month">Month</label>
-    <label for="day">Day</label>
-    <label for="year">Year</label>
+{% for date in messages %}
+<form action="/createfile/{{ date['year'] }}/{{ date['month'] }}/{{ date['day'] }}" method="post">
+    <label for="month">Month: {{ date['month'] }}</label>
+    <label for="day">Day: {{ date['day'] }}</label>
+    <label for="year">Year: {{ date['year'] }}</label>
     <button name="createFile" type="submit">Create Test File</button>
 </form>
+{% endfor %}
 
 
 {% endblock %}
