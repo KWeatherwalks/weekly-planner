@@ -21,12 +21,26 @@ def entry_point():
 @app.route("/createfile", methods=["POST"])
 def deliver_file():
 
-    create_pdf()
+    try:
+        create_pdf()
+        print("---- PDF CREATED SUCCESSFULLY! ----")
+    except:
+        print("---- PDF CREATION FAILED :( ----")
+        return render_template("index.html")
+
     return send_file(
         PDF_PATH + "/" + FILENAME + ".pdf",
         attachment_filename=FILENAME + ".pdf",
-        as_attachment=True,
+        # as_attachment=True,
         cache_timeout=0,
+    )
+
+
+# Fetch PDF results
+@app.route("/files/<string:name>", methods=["GET"])
+def files(name: str):
+    return send_file(
+        f"{PDF_PATH}/{name}.pdf", attachment_filename=f"{name}.pdf", cache_timeout=0
     )
 
 
