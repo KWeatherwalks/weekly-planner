@@ -1,9 +1,5 @@
 #!/usr/bin/python
 # coding: utf-8
-import math
-import os
-
-import cairo
 from flask import Flask, render_template, send_file
 
 from .functions import FILENAME, PDF_PATH, create_pdf
@@ -11,20 +7,24 @@ from .functions import FILENAME, PDF_PATH, create_pdf
 # Flask app
 app = Flask(__name__)
 
+# Test data to pass to the index.html
+messages = [{"month": 8, "day": 1, "year": 2022}]
+
 # Homepage
 @app.route("/")
 def entry_point():
-    return render_template("index.html")
+    """Home Page"""
+    return render_template("index.html", messages=messages)
 
 
 # Create and Return PDF
 @app.route("/createfile", methods=["POST"])
 def deliver_file():
-
+    """Create File"""
     try:
         create_pdf()
         print("---- PDF CREATED SUCCESSFULLY! ----")
-    except:
+    except OSError:
         print("---- PDF CREATION FAILED :( ----")
         return render_template("index.html")
 
@@ -39,6 +39,7 @@ def deliver_file():
 # Fetch PDF results
 @app.route("/files/<string:name>", methods=["GET"])
 def files(name: str):
+    """Retrieve File"""
     return send_file(
         f"{PDF_PATH}/{name}.pdf", attachment_filename=f"{name}.pdf", cache_timeout=0
     )
